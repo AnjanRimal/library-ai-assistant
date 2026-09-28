@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "library-ai-assistant"
+version = "0.1.0"
+description = "Claude-powered library assistant with RAG, tool calling, structured outputs, guardrails and evals."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Anjan Rimal" }]
+license = { text = "MIT" }
+dependencies = [
+    "anthropic>=0.60",
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+    "httpx>=0.27",
+    "numpy>=1.26",
+    "pydantic>=2.6",
+]
+
+[project.optional-dependencies]
+semantic = ["sentence-transformers>=3.0"]
+dev = ["pytest>=8.0", "ruff>=0.5"]
+
+[tool.setuptools.packages.find]
+include = ["library_assistant*"]
+
+[tool.setuptools.package-data]
+library_assistant = ["data/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = [
+    "B008",   # FastAPI's Depends() in argument defaults is the intended pattern
+    "E501",   # line length is handled by `ruff format`
+    "SIM905", # a split() string reads better for the stopword list
+]
